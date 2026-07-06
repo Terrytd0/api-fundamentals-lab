@@ -32,4 +32,21 @@ Today's lab focused on shifting from reading data (`GET`) to structuring and tra
 * `day2_post_response.json` - Serialized JSON response returned by the server, confirming receipt and generation of the new mock resource with a unique ID string.
 
 ---
+
+## 🚀 Day 3: API Authentication & Query Param Filtering
+
+Today's lab focused on mastering API security protocols, passing identity verification structures, and isolating targeted data subsets via parameters.
+
+### 📌 Technical Concepts Mastered
+* **Authentication Methodologies:** Explored structural differences between static application identifiers (**API Keys**) and transient token passes (**Bearer Tokens**).
+* **Metadata Encapsulation (Headers):** Managed secure payload routing by appending authentication headers to clear `401 Unauthorized` flags.
+* **Query Parameters:** Utilized dynamic URL string mutations (`?key=value`) to execute explicit search and filter functions against an endpoint database.
+
+### 📂 Repository Contents
+* `day3_bearer_success.png` - Screenshot validating an authenticated token verification payload yielding a `200 OK` response.
+* `day3_query_filter.png` - Screenshot capturing a parameter-filtered data output.
+* `day3_bearer_success JSON.json` - Serialized response from the authenticated authorization server, confirming token validation.
+* `day3_query_filter JSON.json` - Filtered dataset payload containing the specific structured array elements requested via search query arguments.
+
+---
 *Built as part of an advanced AI Operations & Automation Engineering track.*
