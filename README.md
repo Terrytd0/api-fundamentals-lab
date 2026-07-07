@@ -49,4 +49,18 @@ Today's lab focused on mastering API security protocols, passing identity verifi
 * `day3_query_filter JSON.json` - Filtered dataset payload containing the specific structured array elements requested via search query arguments.
 
 ---
+
+## 🚀 Day 4: Visual Automation Architecture & n8n Ingestion
+
+Today marked the transition from manual endpoint execution to automated visual node architecture, implementing industrial orchestration logic via the n8n ecosystem.
+
+### 📌 Technical Concepts Mastered
+* **Node-Based Systems Engineering:** Conceptualized workflow pipelines using discrete functional components categorized into operational triggers and worker actions.
+* **Data Stream Serialization:** Tracked real-time JSON payload transitions natively as data blocks flow dynamically across sequential logic steps.
+* **Orchestration Execution:** Deployed execution triggers to evaluate automated handling arrays outside of standard terminal or API testing applications.
+
+### 📂 Repository Contents
+* `day4_n8n_canvas.png` - Comprehensive screenshot capturing the functional n8n canvas graph showing successful execution paths.
+* `day4_n8n_output.json` - The underlying JSON payload processed and transformed natively within the n8n application environment.
+---
 *Built as part of an advanced AI Operations & Automation Engineering track.*
