@@ -62,5 +62,25 @@ Today marked the transition from manual endpoint execution to automated visual n
 ### 📂 Repository Contents
 * `day4_n8n_canvas.png` - Comprehensive screenshot capturing the functional n8n canvas graph showing successful execution paths.
 * `day4_n8n_output.json` - The underlying JSON payload processed and transformed natively within the n8n application environment.
+
 ---
+
+## 🚀 Day 5: Core Ingestion Pipeline - Mini Project Capstone (v1)
+
+Today marked the execution of the Week 1 project capstone, constructing an automated data logging architecture tracking user submissions from a production client interface directly to a structured database layer.
+
+### 📌 Technical Concepts Mastered
+* **Webhook Architecture Operations:** Implemented inbound webhook pathways to establish instantaneous asynchronous communication from third-party client inputs to a local listening server.
+* **Public Tunneling & Reverse Proxies:** Leveraged tunnel protocols to bridge cloud-hosted webhooks (Google Apps Script) past local network firewalls directly to self-hosted n8n instances.
+* **Database Field Mapping:** Executed dynamic JSON token variable extraction (`{{ $json }}`) to target and map properties across distinct layout configurations without losing character values.
+* **Automated Metadata Logging:** Configured native database schema triggers (`Created time`) to automatically track record timestamps upon entry creation.
+
+### 📂 Repository Contents
+* `day5_workflow_v1.png` - Architecture screenshot capturing the live execution stream from Google Form submission across the n8n node tree into Airtable.
+* `day5_airtable_log.png` - Visual proof showing the structured row values compiled accurately inside the Airtable storage framework.
+* `day5_airtable_node.png` - Detailed configuration panel showing field mappings and credential binding inside the Airtable action node.
+* `day5_webhook_node.png` - Inspection view of the inbound Webhook trigger node displaying payload capture schemas and test endpoint configurations.
+
+---
+
 *Built as part of an advanced AI Operations & Automation Engineering track.*
