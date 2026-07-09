@@ -1,0 +1,544 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "47741ee2-28d7-4694-8639-272cbbacfb90",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "91d15540-30b9-43ef-a95d-fd96d6b99d77",
+      "name": "Webhook",
+      "webhookId": "47741ee2-28d7-4694-8639-272cbbacfb90"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appiwuKqdcKUEjRdj",
+          "mode": "list",
+          "cachedResultName": "AI Lead Capture Pipeline",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblRY4GN17l1umA9P",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj/tblRY4GN17l1umA9P"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First Name": "={{ $('Webhook').item.json.body.first_name }}",
+            "Last Name": "={{ $('Webhook').item.json.body.email }}",
+            "Email": "={{ $('Webhook').item.json.body.email }}",
+            "Company": "={{ $('Webhook').item.json.body.company }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Submission Date",
+              "displayName": "Submission Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        176
+      ],
+      "id": "0dcf88f3-e4f4-4732-9bdd-f432b6c12eec",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l0ZeudbfWkzyXQJW",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appiwuKqdcKUEjRdj",
+          "mode": "list",
+          "cachedResultName": "AI Lead Capture Pipeline",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblRY4GN17l1umA9P",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj/tblRY4GN17l1umA9P"
+        },
+        "filterByFormula": "={Email} = '{{ $json.body.email }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1cb1c84c-7326-4e87-923a-e402d599ac9c",
+      "name": "Search records",
+      "alwaysOutputData": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l0ZeudbfWkzyXQJW",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3dc534c1-e50c-4150-a9c1-bf77336b1efe",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4c8c9ebf-9299-49b0-9a7c-a064fa32268b",
+      "name": "Is Duplicate Lead?"
+    },
+    {
+      "parameters": {
+        "content": "Lead Already exists (Duplicate)",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        544,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "7558f1d7-0a53-44b1-8354-a61e995a2b91",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Lead is brand new",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        544,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "0ad9fd5e-5aeb-450c-bd24-86fa8fbf953c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "fromEmail": "terrynyirenda123@gmail.com",
+        "toEmail": "terrytheedude0@gmail.com",
+        "subject": "=```text 🚀 New Lead Alert: {{ $('Webhook').item.json.body.first_name }} {{ $('Webhook').item.json.body.last_name }}",
+        "html": "=A new lead has been ingested into Airtable:\n\nName: {{ $('Webhook').item.json.body.first_name }} {{ $('Webhook').item.json.body.last_name }}\nEmail: {{ $('Webhook').item.json.body.email }}\nCompany: {{ $('Webhook').item.json.body.company }}\nTimestamp: {{ $now }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        960,
+        176
+      ],
+      "id": "da801fd1-d61c-4924-a3c2-4db8f61d1801",
+      "name": "Send an Email",
+      "webhookId": "2fb591b4-f378-47aa-9422-006415a07d9f",
+      "credentials": {
+        "smtp": {
+          "id": "w4fOkMvYqWIxFAOo",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appiwuKqdcKUEjRdj",
+          "mode": "list",
+          "cachedResultName": "AI Lead Capture Pipeline",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblrmpkX6NiTx7UGh",
+          "mode": "list",
+          "cachedResultName": "System Logs",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj/tblrmpkX6NiTx7UGh"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Event Type": "DUPLICATE_BLOCK",
+            "Timestamp": "={{ $now }}",
+            "Lead Email": "={{ $('Webhook').item.json.body.email }}",
+            "Status": "SKIPPED"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Event Type",
+              "displayName": "Event Type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Lead Email",
+              "displayName": "Lead Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        -96
+      ],
+      "id": "2a2aa940-aac7-4f3c-a8b3-d9f46aad47d8",
+      "name": "Log Duplicate to Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l0ZeudbfWkzyXQJW",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appiwuKqdcKUEjRdj",
+          "mode": "list",
+          "cachedResultName": "AI Lead Capture Pipeline",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblrmpkX6NiTx7UGh",
+          "mode": "list",
+          "cachedResultName": "System Logs",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj/tblrmpkX6NiTx7UGh"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now }}",
+            "Event Type": "NEW_LEAD_INGESTED",
+            "Lead Email": "={{ $('Webhook').item.json.body.email }}",
+            "Status": "SUCCESS"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Event Type",
+              "displayName": "Event Type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Lead Email",
+              "displayName": "Lead Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        1168,
+        176
+      ],
+      "id": "42c30e8f-813c-4880-8bae-5b7dcf501e85",
+      "name": "Log Success to Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l0ZeudbfWkzyXQJW",
+          "name": "Airtable account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Is Duplicate Lead?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Duplicate Lead?": {
+      "main": [
+        [
+          {
+            "node": "Log Duplicate to Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email": {
+      "main": [
+        [
+          {
+            "node": "Log Success to Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "706bc17e-5d38-4523-bb73-d262496a12eb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "61218c73c4273bfbe002bd132cfaf66afd0401dbdb756cd1450b33eb8c9c77f1"
+  },
+  "nodeGroups": [],
+  "id": "24dQwR2pr4a8DGkZ",
+  "tags": []
+}

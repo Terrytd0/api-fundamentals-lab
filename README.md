@@ -84,4 +84,23 @@ Today marked the execution of the Week 1 project capstone, constructing an autom
 
 ---
 
+## 🚀 Day 6: Workflow Hardening & Duplicate Detection Pipeline (v2)
+
+Today marked the transition from a baseline ingestion workflow to an enterprise-grade, fault-tolerant orchestration pipeline. Workflow v2 introduces conditional data routing, duplicate submission filtering, auto-responder/notification logic, and explicit audit logging to maintain database integrity.
+
+### 📌 Technical Concepts Mastered
+* **Idempotency & Deduplication Patterns:** Engineered pre-ingestion database validation checks using Airtable dynamic formulas (`{Email} = '...'`) to ensure identical payload submissions do not pollute production bases.
+* **Control Flow & Conditional Branching:** Implemented two-way evaluation logic via the `If` node, dynamically splitting execution pathways based on query result array states (`Is Not Empty`).
+* **Non-Blocking Execution State Handling:** Enabled `Always Output Data` configurations on lookup nodes, forcing empty execution sets to pass downstream as structured null objects rather than breaking the pipeline run.
+* **Global Target Mapping (`$('Node Name')`):** Overrode default sequential node inheritance by mapping payload properties directly from root trigger nodes (`$('Webhook')`), preventing schema degradation across empty conditional branches.
+* **System Operations Audit Logging:** Constructed an isolated logging architecture (`System Logs` table) tracking asynchronous execution outcomes (`NEW_LEAD_INGESTED` vs. `DUPLICATE_BLOCK`) alongside standardized timestamp strings (`{{ $now }}`).
+
+### 📂 Repository Contents
+* `day6_My_Workflow_v2.json` - Complete exported n8n workflow v2 schema containing full conditional logic, SMTP credential bindings, and two-branch Airtable node mappings.
+* `day6_My_workflow_v2.png` - Visual architecture graph showing live execution streams branching across duplicate handling and new lead ingestion pathways.
+* `day6_System_Logs_Table.png` - Database verification screenshot showing structured operational audit logs (`Timestamp`, `Event Type`, `Lead Email`, `Status`).
+* `day6_Lead_Capture_Table.png` - Primary lead database verification showing clean, unique record creation filtered free of duplicate entries.
+
+---
+
 *Built as part of an advanced AI Operations & Automation Engineering track.*
