@@ -71,7 +71,7 @@ Today marked the execution of the Week 1 project capstone, constructing an autom
 
 ### 📌 Technical Concepts Mastered
 * **Webhook Architecture Operations:** Implemented inbound webhook pathways to establish instantaneous asynchronous communication from third-party client inputs to a local listening server.
-* **Public Tunneling & Reverse Proxies:** Leveraged tunnel protocols to bridge cloud-hosted webhooks (Google Apps Script) past local network firewalls directly to self-hosted n8n instances.
+* **Public Tunneling & Reverse Proxies:** Leveraged tunnel protocols (Cloudflare Tunnel) to bridge cloud-hosted webhooks (Google Apps Script) past local network firewalls directly to self-hosted n8n instances.
 * **Database Field Mapping:** Executed dynamic JSON token variable extraction (`{{ $json }}`) to target and map properties across distinct layout configurations without losing character values.
 * **Automated Metadata Logging:** Configured native database schema triggers (`Created time`) to automatically track record timestamps upon entry creation.
 
@@ -80,6 +80,7 @@ Today marked the execution of the Week 1 project capstone, constructing an autom
 * `day5_airtable_log.png` - Visual proof showing the structured row values compiled accurately inside the Airtable storage framework.
 * `day5_airtable_node.png` - Detailed configuration panel showing field mappings and credential binding inside the Airtable action node.
 * `day5_webhook_node.png` - Inspection view of the inbound Webhook trigger node displaying payload capture schemas and test endpoint configurations.
+* `day5_My_workflow_v1.json` - Exported n8n workflow JSON schema containing full node configuration data for complete local pipeline reproduction.
 
 ---
 
