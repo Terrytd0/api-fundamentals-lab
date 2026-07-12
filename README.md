@@ -118,3 +118,21 @@ The final day of the Week 1 Capstone was dedicated to system architecture docume
 ---
 
 *Built as part of an advanced AI Operations & Automation Engineering track.*
+
+---
+
+# 🚀 AI Operations & Automation Engineering Portfolio
+
+Welcome to my automation engineering portfolio. This repository documents a series of production-grade integration projects, moving from basic REST API interactions to autonomous, LLM-powered lead enrichment pipelines.
+
+---
+
+## 🛠️ Tech Stack & Infrastructure
+* **Orchestration:** n8n (Self-Hosted)
+* **Databases / CRM:** Airtable
+* **Trigger Interfaces:** Google Forms & Google Apps Script
+* **Networking & Security:** Cloudflare Tunnels (`cloudflared`), HTTPS Webhooks
+* **AI & LLM Services:** OpenAI API (`gpt-5.6-luna`), Postman
+* **Notifications:** SMTP (Gmail App Passwords)
+* **Version Control:** Git, GitHub
+
