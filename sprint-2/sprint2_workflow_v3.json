@@ -1,0 +1,692 @@
+{
+  "name": "Sprint 2 - AI Lead Enrichment Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sprint2-lead-ingest",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        48
+      ],
+      "id": "ea3531a0-1839-4de5-8eb9-670a281da9ce",
+      "name": "Webhook",
+      "webhookId": "e617dd4c-07ea-4299-9c8c-75dec682f59e"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5.6-luna",
+          "mode": "list",
+          "cachedResultName": "GPT-5.6-LUNA"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an elite B2B sales intelligence agent for Yellow House Systems. You analyze target companies and generate hyper-personalized sales outreach."
+            },
+            {
+              "content": "=Analyze the target company '{{ $('Webhook').item.json.body.company }}'. Provide: 1) A concise 2-sentence company research summary, 2) A 3-sentence cold email draft introducing Yellow House Systems' AI automation services, and 3) A 1-sentence LinkedIn connection request. Output strictly valid JSON with keys: company_research, cold_email_draft, linkedin_intro."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_object"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        560,
+        48
+      ],
+      "id": "c5c6758f-fb3e-4b9b-acb6-aadc0820ab4f",
+      "name": "Message a model",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "openAiApi": {
+          "id": "V6IaYFUEY5uWBn9J",
+          "name": "OpenAI account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "40ae56ff-dd77-4846-80be-5418656b9857",
+              "leftValue": "={{ $json.output[0].content[0].text.company_research }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        48
+      ],
+      "id": "94bd7d57-362b-4480-8f7a-d492303ad508",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appk8DCZWi8hfUuOr",
+          "mode": "list",
+          "cachedResultName": "Sprint 2 - Yellow House Systems",
+          "cachedResultUrl": "https://airtable.com/appk8DCZWi8hfUuOr"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblRY4GN17l1umA9P",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/appk8DCZWi8hfUuOr/tblRY4GN17l1umA9P"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Company Research": "RESEARCH_PENDING: API Error or Timeout",
+            "Cold Email Draft": "OUTREACH_PENDING: Generation Failed",
+            "LinkedIn Intro": "=INTRO_PENDING: Generation Failed",
+            "id": "={{ $('Create YellowHouse record').item.json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Research",
+              "displayName": "Company Research",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cold Email Draft",
+              "displayName": "Cold Email Draft",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn Intro",
+              "displayName": "LinkedIn Intro",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Submission Date",
+              "displayName": "Submission Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        1184,
+        144
+      ],
+      "id": "d0cba73c-19fb-488b-be8a-8444b2a7e978",
+      "name": "Update record on fail",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l0ZeudbfWkzyXQJW",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appk8DCZWi8hfUuOr",
+          "mode": "list",
+          "cachedResultName": "Sprint 2 - Yellow House Systems",
+          "cachedResultUrl": "https://airtable.com/appk8DCZWi8hfUuOr"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblRY4GN17l1umA9P",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/appk8DCZWi8hfUuOr/tblRY4GN17l1umA9P"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "LinkedIn Intro": "={{ $json.output[0].content[0].text.linkedin_intro }}",
+            "id": "={{ $('Create YellowHouse record').item.json.id }}",
+            "Company Research": "={{ $json.output[0].content[0].text.company_research }}",
+            "Cold Email Draft": "={{ $json.output[0].content[0].text.cold_email_draft }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Research",
+              "displayName": "Company Research",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cold Email Draft",
+              "displayName": "Cold Email Draft",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn Intro",
+              "displayName": "LinkedIn Intro",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Submission Date",
+              "displayName": "Submission Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        1184,
+        -64
+      ],
+      "id": "35d27c63-eb3c-4060-b7cf-c4bc6aa44fa9",
+      "name": "Update record on success",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l0ZeudbfWkzyXQJW",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appk8DCZWi8hfUuOr",
+          "mode": "list",
+          "cachedResultName": "Sprint 2 - Yellow House Systems",
+          "cachedResultUrl": "https://airtable.com/appk8DCZWi8hfUuOr"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblRY4GN17l1umA9P",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/appk8DCZWi8hfUuOr/tblRY4GN17l1umA9P"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Company": "={{ $('Webhook').item.json.body.company }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Research",
+              "displayName": "Company Research",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cold Email Draft",
+              "displayName": "Cold Email Draft",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn Intro",
+              "displayName": "LinkedIn Intro",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Submission Date",
+              "displayName": "Submission Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        400,
+        48
+      ],
+      "id": "e9faba66-db0f-43bd-8199-a5a92d355a7e",
+      "name": "Create YellowHouse record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l0ZeudbfWkzyXQJW",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appiwuKqdcKUEjRdj",
+          "mode": "list",
+          "cachedResultName": "AI Lead Capture Pipeline",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblRY4GN17l1umA9P",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appiwuKqdcKUEjRdj/tblRY4GN17l1umA9P"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First Name": "={{ $json.body.first_name }}",
+            "Email": "={{ $json.body.email }}",
+            "Last Name": "={{ $json.body.last_name }}",
+            "Company": "={{ $json.body.company }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Submission Date",
+              "displayName": "Submission Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        48
+      ],
+      "id": "69696b93-9c22-463c-acde-60fdf16b0ab4",
+      "name": "Create lead record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l0ZeudbfWkzyXQJW",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "terrynyirenda123@gmail.com",
+        "toEmail": "terrytheedude0@gmail.com",
+        "subject": "=🚀 New AI Outreach Generated: {{ $('Webhook').item.json.body.company }} (Lead: {{ $('Webhook').item.json.body.first_name }})",
+        "html": "=<p>Hi Team,</p>\n\n<p>A new lead was submitted via Google Forms and processed through the Yellow House Systems AI engine!</p>\n\n<hr>\n<h3>👤 LEAD DETAILS</h3>\n<p>\n<b>Name:</b> {{ $('Webhook').item.json.body.first_name }}<br>\n<b>Email:</b> {{ $('Webhook').item.json.body.email }}<br>\n<b>Company:</b> {{ $('Webhook').item.json.body.company }}\n</p>\n\n<hr>\n<h3>📊 COMPANY RESEARCH</h3>\n<p> {{ $('Message a model').item.json.output[0].content[0].text.company_research }}</p>\n\n<hr>\n<h3>✉️ COLD EMAIL DRAFT</h3>\n<p> {{ $('Message a model').item.json.output[0].content[0].text.cold_email_draft.replace(/\\n/g, '<br>') }}</p>\n\n<hr>\n<h3>💼 LINKEDIN INTRO</h3>\n<p> {{ $('Message a model').item.json.output[0].content[0].text.linkedin_intro }}</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1392,
+        -64
+      ],
+      "id": "1a7044d2-133a-4682-a2c8-852bd0aef8a6",
+      "name": "Send an Email",
+      "webhookId": "d60e31c8-4511-4c10-9761-aaf9e336b09f",
+      "credentials": {
+        "smtp": {
+          "id": "w4fOkMvYqWIxFAOo",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create lead record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Update record on success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update record on fail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create YellowHouse record": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create lead record": {
+      "main": [
+        [
+          {
+            "node": "Create YellowHouse record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record on success": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "0709ddf2-f7b6-4a3e-892b-c141b3b8c1cd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "61218c73c4273bfbe002bd132cfaf66afd0401dbdb756cd1450b33eb8c9c77f1"
+  },
+  "nodeGroups": [],
+  "id": "bfkVVjBaqTaNTdX5",
+  "tags": []
+}

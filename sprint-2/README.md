@@ -7,8 +7,8 @@ Sprint 2 transitions our lead ingestion infrastructure from mechanical routing t
 
 ## 🎯 Sprint Objectives & Client Scope
 * **Client Ticket:** Yellow House Systems — *"Research every new lead automatically."*
-* **Core Goal:** Intercept unique inbound lead submissions, extract company metadata, query LLM APIs for real-time account intelligence, and append research summaries and outreach copy back to Airtable.
-* **Architecture:** Ingestion Webhook $\rightarrow$ Deduplication Check $\rightarrow$ OpenAI/Anthropic API Node $\rightarrow$ JSON Schema Parsing $\rightarrow$ CRM Enrichment & Notification.
+* **Core Goal:** Intercept unique inbound lead submissions, extract company metadata, query LLM APIs for real-time account intelligence, append research summaries and outreach copy back to Airtable, and deliver formatted email drafts to the sales team.
+* **Architecture:** Google Forms / Webhook $\rightarrow$ Cloudflare Tunnel $\rightarrow$ Multi-Base Airtable Ingestion $\rightarrow$ OpenAI API Node $\rightarrow$ JSON Schema Parsing $\rightarrow$ Conditional Fallback Gate $\rightarrow$ CRM Enrichment & HTML Email Delivery.
 
 ---
 
@@ -31,6 +31,16 @@ Sprint 2 transitions our lead ingestion infrastructure from mechanical routing t
   * Manually mapped and verified output payloads directly into the target CRM base.
 * **Artifacts:** `Sprint2_days_2_&_3_postman.png`, `Sprint2_days_2_&_3_Lead_Airtable.png`
 
+### 🔵 Days 4–6 (Thursday – Saturday): End-to-End Orchestration, Multi-Base Routing & Fault Tolerance
+* **Objective:** Orchestrate the complete live lead enrichment pipeline in n8n via Cloudflare Tunnel, route data across multiple Airtable bases, handle response parsing errors, and trigger real-time HTML email notifications.
+* **Key Achievements:**
+  * Connected live Google Form submissions to local n8n instance via **Cloudflare Tunnel** (`cloudflared`).
+  * Implemented multi-base routing: logged master leads into `Sprint 1 Base` while sending target company profiles to `Sprint 2 Base` for AI enrichment.
+  * Addressed structured output array nesting by mapping `content[0].text` dynamic properties directly to downstream nodes.
+  * Implemented enterprise error handling: configured automatic retry logic on API timeouts and designed an `If` decision gate routing to fallback default records (`RESEARCH_PENDING`) upon API failure.
+  * Integrated an HTML Email Notification Node that parses line breaks (`<br>`) and formats personalized cold outreach copy directly to the team's inbox.
+* **Artifacts:** `sprint2_n8n_canvas_e2e.png`, `sprint2_workflow_v3.json`
+
 ---
 
 ## 📂 Sprint Deliverables
@@ -38,4 +48,5 @@ Sprint 2 transitions our lead ingestion infrastructure from mechanical routing t
 * `sprint2_day1_postman.png` - Proof of HTTP 200 response from LLM API test query.
 * `Sprint2_days_2_&_3_postman.png` - Proof of structured JSON prompt execution containing research summary and dual outreach drafts.
 * `Sprint2_days_2_&_3_Lead_Airtable.png` - Airtable verification showing fully populated research and outreach columns.
-* `sprint2_workflow_v3.json` - *(In Progress)* n8n workflow incorporating LLM research and outreach nodes.
+* `sprint2_n8n_canvas_e2e.png` - Full n8n execution canvas showing Webhook, multi-base Airtable, OpenAI, decision gate, and Email nodes.
+* `sprint2_workflow_v3.json` - Exported end-to-end n8n workflow file.
