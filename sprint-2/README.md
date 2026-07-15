@@ -43,6 +43,17 @@ Sprint 2 transitions our lead ingestion infrastructure from mechanical routing t
 
 ---
 
+### 🔵 Day 7: Multi-Scenario Routing, Guardrails & System Audit Logging
+* **Objective:** Bulletproof the pipeline against duplicates, implement automatic contact-company profile updates for returning leads, apply LLM hallucination guardrails, and produce real-time audit logs.
+* **Key Achievements:**
+  * Developed a two-tier conditional logic flow evaluating both Contact Email and Company Name with search-limit controls to normalize array looping.
+  * Engineered error-resilient branching utilizing skipped-node execution fallbacks to seamlessly separate **New Leads** from **Returning Leads with New Companies**.
+  * Configured system prompt guardrails forcing `COMPANY_NOT_FOUND` outputs for fake/invalid account names.
+  * Configured multi-channel notifications (Slack and Gmail) alongside a centralized **System Log Table** logging timestamps, actions (`SYSTEM LOG UPDATE`, `SYSTEM LOG NEW`), and execution statuses.
+* **Artifacts:** `sprint2_n8n_canvas_final.png`, `sprint2_workflow_v3.json`
+
+---
+
 ## 📂 Sprint Deliverables
 * `sprint2_day1_test_script.sh` - Standard cURL script executing an authenticated chat completion query.
 * `sprint2_day1_postman.png` - Proof of HTTP 200 response from LLM API test query.
@@ -50,3 +61,5 @@ Sprint 2 transitions our lead ingestion infrastructure from mechanical routing t
 * `Sprint2_days_2_&_3_Lead_Airtable.png` - Airtable verification showing fully populated research and outreach columns.
 * `sprint2_n8n_canvas_e2e.png` - Full n8n execution canvas showing Webhook, multi-base Airtable, OpenAI, decision gate, and Email nodes.
 * `sprint2_workflow_v3.json` - Exported end-to-end n8n workflow file.
+* `sprint2_n8n_canvas_updated.png` - Finalized n8n execution canvas containing all conditional gates, guardrails, and System Log nodes.
+* `sprint2_workflow_v3.2.json` - Exported end-to-end multi-scenario n8n workflow file.
